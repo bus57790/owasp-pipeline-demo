@@ -23,13 +23,14 @@ pipeline {
             }
         }
 
-        stage('SAST - Semgrep') {
-            steps {
-                sh '''
-                semgrep --config=p/owasp-top-ten --json > reports/semgrep.json || true
-                '''
-            }
-        }
+stage('SAST - Semgrep') {
+    steps {
+        sh '''
+            mkdir -p reports
+            semgrep scan --config=auto . --json > reports/semgrep.json || true
+        '''
+    }
+}
 
         stage('SCA - OWASP Dependency-Check') {
             steps {
